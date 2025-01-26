@@ -103,9 +103,13 @@
             transition: opacity 1s ease-in-out;
             border-radius: 15px;
             box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            background-size: cover;
+            background-repeat: no-repeat;
+            visibility: hidden;
         }
 
         .slide-image.active {
+            visibility: visible;
             opacity: 1;
         }
     </style>
@@ -146,9 +150,36 @@
 </script>
 <script>
         let currentImage = null;
+function preloadResources() {
+    // 预加载图片
+    const imageList = [
+        'img/photo1.jpg',
+        'img/photo2.jpg',
+        'img/photo3.jpg',
+        'img/photo4.jpg',
+        'img/photo5.jpg',
+        'img/photo6.jpg',
+        'img/photo7.jpg',
+        'img/photo8.jpg',
+        'img/photo9.jpg',
+        'img/photo10.jpg'
+    ];
 
+    imageList.forEach(imgUrl => {
+        const img = new Image();
+        img.src = imgUrl;
+    });
+
+    // 预加载音乐
+    const audio = new Audio('img/music.mp3');
+    audio.preload = 'auto';
+}
+// 在DOM加载完成后立即执行预加载
+document.addEventListener('DOMContentLoaded', preloadResources);
   document.addEventListener('click', function() {
-    document.querySelector('audio').play();
+        const audio = document.querySelector('audio');
+    audio.play();
+    document.body.classList.add('played');
   });
 
     function showTimedImage(src, duration) {
@@ -185,7 +216,7 @@
             "接下来的时间|咱们一起走过了|很多地方|#wait 4000|" +
             "#image img/photo4.jpg 4000|#image img/photo5.jpg 4000|#image img/photo6.jpg 4000|" +
             "#image img/photo7.jpg 4000|#image img/photo8.jpg 4000|#image img/photo9.jpg 4000|" +
-            "新的一年|希望咱们|如愿以偿|#wait 4000|" +
+            "新的一年|希望咱们|得偿所愿|#wait 4000|" +
             "#image img/photo10.jpg 4000|" +
             "#time"
             );
@@ -653,7 +684,7 @@
     S.init();
 </script>
 <!--//音乐可改-->
-<audio autoplay="autoplay" loop="loop">
+<audio loop="loop" preload="auto">
     <source src="img/music.mp3" type="audio/mpeg">
 </audio>
 </body>
